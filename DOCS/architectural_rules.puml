@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/class-diagram
+hide empty members
+
+package "com.tournament.controller" {
+    class Controller
+}
+
+package "com.tournament.service" {
+    class Service
+}
+
+package "com.tournament.model" {
+    class Domain
+}
+
+package "com.tournament.repository" {
+    class Repository
+}
+
+package "com.tournament.dto" {
+    class Dto
+}
+package "com.tournament.mapper" {
+    class Mapper
+}
+
+
+
+Controller -[#green]-> Service :allows
+Service -[#green]-> Domain
+Service -[#green]-> Repository
+Repository -[#green]-> Domain
+
+Service -[#green]-> Dto
+Controller -[#green]-> Dto
+Service -[#green]-> Mapper
+Mapper -[#green]-> Dto
+Mapper -[#green]-> Domain
+
+Service -[#red]-> Controller : forbidden
+
+
+
+@enduml

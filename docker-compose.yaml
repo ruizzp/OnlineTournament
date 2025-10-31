@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  rest-tournament:
+    image: java-online-tournament
+    build: .
+    container_name: rest-tournament
+    ports:
+      - "8080:8080"
+    networks:
+      - test-net
+    restart: unless-stopped
+
+  k6:
+  #May need to uncomment and use the following line
+    platform: "linux/amd64"
+    image: loadimpact/k6
+    container_name: k6-tournament
+    volumes:
+      - ./tests:/tests
+    networks:
+      - test-net
+    entrypoint: ["tail", "-f", "/dev/null"] # Keeps the container running for executing tests
+    depends_on:
+      - rest-tournament
+
+networks:
+  test-net:
+    driver: bridge
